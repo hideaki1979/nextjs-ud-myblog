@@ -1,7 +1,6 @@
 import { PostCard } from "@/components/post/PostCard"
 import { getPosts, searchPosts } from "@/lib/post"
 import { Post } from "@/types/Post"
-import { SearchParams } from "next/dist/server/request/search-params"
 
 type SearchParamsProps = {
     search?: string;
