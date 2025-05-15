@@ -1,24 +1,27 @@
-import { getPost } from "@/lib/post"
-import { notFound } from "next/navigation"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import Image from "next/image"
+import { auth } from "@/auth"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { getOwnPost } from "@/lib/post"
 import { format } from "date-fns"
 import { ja } from "date-fns/locale"
+import Image from "next/image"
+import { notFound } from "next/navigation"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import rehypeHighlight from "rehype-highlight"
 import "highlight.js/styles/github.css" // コードハイライト用のスタイル
 
+
 type Params = { params: Promise<{ id: string }> }
 
-export default async function PostPage({ params }: Params) {
+export default async function PostDetailPage({ params }: Params) {
     const { id } = await params
-    const post = await getPost(id)
+    const post = await getOwnPost(id)
+    const session = await auth()
+    const userId = session?.user?.id
+    if (!session?.user?.id || !userId) {
+        throw new Error('不正なリクエストです。')
+    }
+
 
     if (!post) {
         notFound()
@@ -40,21 +43,16 @@ export default async function PostPage({ params }: Params) {
                     </div>
                 )}
                 <CardHeader>
-                    <div className="flex items-center justify-between mb-4">
-                        <p className="text-sm text-gray-600">
+                    <div className="flex justify-between mb-4">
+                        <p className="text-gray-700">
                             投稿者：{post.author.name}
                         </p>
                         <time>{format(
                             new Date(post.createdAt),
-                            "yyyy年MM月dd日",
-                            { locale: ja }
-                        )}
+                            "yyyy年MM月dd日", { locale: ja })}
                         </time>
                     </div>
-
-                    <CardTitle
-                        className="text-2xl font-bold"
-                    >
+                    <CardTitle className="text-2xl font-bold">
                         {post.title}
                     </CardTitle>
                 </CardHeader>
@@ -72,6 +70,5 @@ export default async function PostPage({ params }: Params) {
                 </CardContent>
             </Card>
         </div>
-
     )
 }

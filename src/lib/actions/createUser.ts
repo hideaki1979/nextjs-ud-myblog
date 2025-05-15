@@ -20,6 +20,7 @@ function handleValidationError(error: ZodError, values: { name: string, email: s
             values
         }
     }
+    // fieldErrorsにundefinedが入らないようにキャストを行う。
     return { success: false, errors: { ...fieldErrors as Record<string, string[]> }, values }
 }
 

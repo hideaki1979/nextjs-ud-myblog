@@ -15,8 +15,8 @@ export async function authenticate(
             'credentials',
             {
                 ...Object.fromEntries(formData),
-                redirect: false
-            })    // 自動リダイレクトを無効化
+                redirect: false // 自動リダイレクトを無効化
+            })
 
         // 認証成功後に手動でリダイレクト
         redirect('/dashboard')
