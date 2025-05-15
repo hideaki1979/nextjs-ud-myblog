@@ -1,13 +1,20 @@
-// import { auth } from "@/auth"
+import { auth } from "@/auth"
+import { getOwnPost } from "@/lib/post"
+import { notFound } from "next/navigation"
+import EditPostForm from "./EditPostForm"
 
-// type PageProps = {params: Promise<{id: string}>}
+type PageProps = { params: Promise<{ id: string }> }
 
-export default async function EditPage() {
-    // const {id} = await params 
-    // const session = await auth()
-    // const userId = session?.user?.id
-
+export default async function EditPage({ params }: PageProps) {
+    const { id } = await params
+    const session = await auth()
+    const userId = session?.user?.id
+    if (!session?.user?.email || !userId) { throw new Error("不正なリクエストです。") }
+    const post = await getOwnPost(id)
+    if (!post) { notFound() }
     return (
-        <div>page</div>
+        <div>
+            <EditPostForm post={post} />
+        </div>
     )
 }

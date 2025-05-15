@@ -36,3 +36,14 @@ export interface PostFormState {
         content?: string;
     }
 }
+
+// Blog記事更新でpropsで受け取る型指定
+export interface EditPostProps {
+    post: {
+        id: string;
+        title: string;
+        content: string;
+        topImage?: string | null;
+        published: boolean;
+    }
+}
