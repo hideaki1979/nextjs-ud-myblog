@@ -14,7 +14,9 @@ export default async function PublicLayout({
     return (
         <>
             <PublicHeader />
-            {children}
+            <div className="pt-20">
+                {children}
+            </div>
         </>
     );
 }

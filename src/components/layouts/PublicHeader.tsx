@@ -14,7 +14,7 @@ export default async function PublicHeader() {
     const session = await auth()
     return (
         <div>
-            <header className="border-b bg-blue-200">
+            <header className="border-b bg-blue-200 fixed top-0 left-0 w-full z-30">
                 <div className="container mx-auto p-4 flex items-center justify-between">
                     <NavigationMenu>
                         <NavigationMenuList>

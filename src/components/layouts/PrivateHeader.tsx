@@ -14,7 +14,7 @@ export default async function PrivateHeader() {
 
     return (
         <div>
-            <header className="border-b bg-blue-200">
+            <header className="fixed top-0 left-0 w-full z-30 border-b bg-blue-200">
                 <div className="container mx-auto p-4 flex items-center justify-between">
                     <NavigationMenu>
                         <NavigationMenuList>

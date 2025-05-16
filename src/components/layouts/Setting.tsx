@@ -23,7 +23,7 @@ export default function Setting({ session }: { session: Session }) {
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="ghost"
-                        className="font-medium"
+                        className="font-medium cursor-pointer"
                     >
                         {session.user?.name}
                     </Button>

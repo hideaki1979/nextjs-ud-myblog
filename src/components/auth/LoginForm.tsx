@@ -13,6 +13,8 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import Link from "next/link"
 import { Loader2 } from "lucide-react"
+import { FcGoogle } from "react-icons/fc"
+import { signIn } from "next-auth/react"
 
 export function LoginForm() {
     const [errorMessage, formAction] = useActionState(
@@ -101,6 +103,16 @@ export function LoginForm() {
                         </Link>
                     </p>
                 </div>
+                <hr className="my-4" />
+                <Button
+                    type="button"
+                    className="w-full text-xl font-bold bg-green-400 hover:bg-green-600 hover:scale-105 transition-all cursor-pointer"
+                    onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+                >
+                    <FcGoogle size={20} className="mr-4" />
+                    Google認証
+                </Button>
+
             </CardContent>
         </Card>
     )

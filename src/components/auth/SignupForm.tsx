@@ -1,7 +1,7 @@
 "use client"
 
 import { createUser } from "@/lib/actions/createUser"
-import { useActionState } from "react"
+import { useActionState, useState } from "react"
 import {
     Card,
     CardContent,
@@ -13,17 +13,30 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { UserFormState } from "@/types/UserForm"
 import Link from "next/link"
+import { Loader2 } from "lucide-react"
+import { FcGoogle } from "react-icons/fc"
+import { signIn } from "next-auth/react"
+import { FaXTwitter } from "react-icons/fa6"
 
 export function SignupForm() {
-    const [state, formAction] = useActionState<UserFormState, FormData>(createUser, {
-        success: false,
-        errors: {},
-        values: {
-            name: "",
-            email: ""
+    const [state, formAction] = useActionState<UserFormState, FormData>(
+        async (prevState: UserFormState, formData: FormData) => {
+            setIsLoading(true)
+            const result = await createUser(prevState, formData)
+            setIsLoading(false)
+            return result
         }
+        , {
+            success: false,
+            errors: {},
+            values: {
+                name: "",
+                email: ""
+            }
 
-    })
+        })
+
+    const [isLoading, setIsLoading] = useState(false)
 
     return (
         <Card className="w-full max-w-md mx-auto">
@@ -91,8 +104,13 @@ export function SignupForm() {
                         )}
                     </div>
                     <Button
+                        type="submit"
                         className="w-full text-xl font-bold h-auto py-2 hover:bg-blue-600 hover:scale-105 transition-all cursor-pointer"
+                        disabled={isLoading}
                     >
+                        {isLoading && (
+                            <Loader2 className="animate-spin mr-2" size={20} />
+                        )}
                         ユーザー登録
                     </Button>
                 </form>
@@ -118,8 +136,24 @@ export function SignupForm() {
                         </Link>
                     </p>
                 </div>
+                <hr className="my-4" />
+                <Button
+                    type="button"
+                    className="w-full text-xl font-bold bg-green-400 hover:bg-green-600 hover:scale-105 transition-all cursor-pointer mb-2"
+                    onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+                >
+                    <FcGoogle size={20} className="mr-4" />
+                    Google認証
+                </Button>
+                <Button
+                    type="button"
+                    className="w-full text-xl text-black font-bold bg-blue-400 hover:bg-blue-600 hover:scale-105 transition-all cursor-pointer mb-2"
+                    onClick={() => signIn('twitter', { callbackUrl: '/dashboard' })}
+                >
+                    <FaXTwitter size={20} className="mr-4" />
+                    X(Twitter)認証
+                </Button>
             </CardContent>
         </Card>
     )
-
 }
