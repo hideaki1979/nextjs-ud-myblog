@@ -12,6 +12,7 @@ import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { UserFormState } from "@/types/UserForm"
+import Link from "next/link"
 
 export function SignupForm() {
     const [state, formAction] = useActionState<UserFormState, FormData>(createUser, {
@@ -32,7 +33,7 @@ export function SignupForm() {
             <CardContent>
                 <form action={formAction} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">お名前：</Label>
+                        <Label htmlFor="name" className="font-bold">お名前：</Label>
                         <Input
                             id="name"
                             name="name"
@@ -47,7 +48,7 @@ export function SignupForm() {
                         )}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="email">メールアドレス：</Label>
+                        <Label htmlFor="email" className="font-bold">メールアドレス：</Label>
                         <Input
                             id="email"
                             name="email"
@@ -62,7 +63,7 @@ export function SignupForm() {
                         )}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="name">パスワード：</Label>
+                        <Label htmlFor="name" className="font-bold">パスワード：</Label>
                         <Input
                             id="password"
                             name="password"
@@ -76,7 +77,7 @@ export function SignupForm() {
                         )}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="confirmPassword">パスワード確認：</Label>
+                        <Label htmlFor="confirmPassword" className="font-bold">パスワード確認：</Label>
                         <Input
                             id="confirmPassword"
                             name="confirmPassword"
@@ -90,11 +91,33 @@ export function SignupForm() {
                         )}
                     </div>
                     <Button
-                        className="w-full text-xl font-bold h-auto py-2"
+                        className="w-full text-xl font-bold h-auto py-2 hover:bg-blue-600 hover:scale-105 transition-all cursor-pointer"
                     >
                         ユーザー登録
                     </Button>
                 </form>
+                <div className="mt-4 mb-2">
+                    <p className="text-center">
+                        ログインは
+                        <Link
+                            href='/login'
+                            className="text-blue-600 font-bold cursor-pointer"
+                        >
+                            こちら
+                        </Link>
+                        から
+                    </p>
+                </div>
+                <div>
+                    <p className="text-center">
+                        <Link
+                            href={'/'}
+                            className="text-gray-600 underline font-bold"
+                        >
+                            ホームに戻る
+                        </Link>
+                    </p>
+                </div>
             </CardContent>
         </Card>
     )

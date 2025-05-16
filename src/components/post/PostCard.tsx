@@ -10,12 +10,18 @@ import { formatDistanceToNow } from "date-fns"
 import { ja } from "date-fns/locale"
 import Image from "next/image"
 
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
+import rehypeHighlight from "rehype-highlight"
+import "highlight.js/styles/github.css" // コードハイライト用のスタイル
+
+
 export function PostCard({ post }: PostCardProps) {
     return (
         <Card className="hover:shadow-lg transition-shadow overflow-hidden">
             <Link href={`/posts/${post.id}`}>
                 {post.topImage && (
-                    <div className="relative w-full h-48 -mt-6">
+                    <div className="relative aspect-video w-full -mt-6">
                         <Image
                             src={post.topImage}
                             alt={post.title}
@@ -28,13 +34,23 @@ export function PostCard({ post }: PostCardProps) {
                 )}
                 <CardHeader>
                     <CardTitle
-                        className="my-4 line-clamp-2"
+                        className="mt-4 line-clamp-2"
                     >
                         {post.title}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-sm text-gray-600 mb-2 line-clamp-2">{post.content}</p>
+                    <div className="p-4 w-full prose line-clamp-1 whitespace-nowrap">
+                        <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeHighlight]}
+                            skipHtml={true}    // HTMLスキップを無効化
+                            unwrapDisallowed={true} // Markdownの改行を解釈
+                        >
+                            {post.content}
+                        </ReactMarkdown>
+                    </div>
+
                     <div className="flex items-center justify-between text-sm text-gray-500">
                         <span>{post.author.name}</span>
                         <time>{formatDistanceToNow(
@@ -45,6 +61,6 @@ export function PostCard({ post }: PostCardProps) {
                     </div>
                 </CardContent>
             </Link>
-        </Card>
+        </Card >
     )
 }

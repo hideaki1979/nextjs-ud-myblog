@@ -20,6 +20,7 @@ export default async function DashBoardPage() {
                     記事一覧
                 </h1>
                 <Button
+                    className="font-bold hover:bg-blue-700 hover:scale-105 transition-all cursor-pointer"
                 >
                     <Link href='/manage/posts/create'>
                         新規記事作成
@@ -47,7 +48,7 @@ export default async function DashBoardPage() {
                             <td className="border p-2">
                                 {new Date(post.updatedAt).toLocaleString()}
                             </td>
-                            <td className="border p-2 text-center">
+                            <td className="border p-2 text-center hover:bg-gray-600 hover:text-white transition-colors cursor-pointer">
                                 <PostDropdownMenu postId={post.id} />
                             </td>
                         </tr>
