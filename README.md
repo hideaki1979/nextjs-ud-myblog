@@ -10,7 +10,7 @@ Next.jsを用いて構築したブログアプリケーションです。ユー�
 - React （ライブラリ）
 - Auth.js（認証）
 - Tailwind CSS（デザイン）
-- Supabase（DB）
+- Supabase（DB・画像ファイル保存）
 - Prisma（ORM）
 - TypeScript（言語）
 
