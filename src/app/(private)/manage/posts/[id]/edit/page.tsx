@@ -5,6 +5,13 @@ import EditPostForm from "./EditPostForm"
 
 type PageProps = { params: Promise<{ id: string }> }
 
+/**
+ * Blog記事更新ページ
+ *
+ * @param {PageProps} props Props
+ * @param {Promise<{ id: string }>} props.params.id Promise of post id
+ * @returns {JSX.Element} JSX.Element
+ */
 export default async function EditPage({ params }: PageProps) {
     const { id } = await params
     const session = await auth()

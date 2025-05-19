@@ -12,23 +12,21 @@ import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import Link from "next/link"
-import { Loader2 } from "lucide-react"
 import { FcGoogle } from "react-icons/fc"
 import { signIn } from "next-auth/react"
+import { UserFormState } from "@/types/UserForm"
+import { ErrorAlert } from "../layouts/ErrorAlert"
 
 export function LoginForm() {
-    const [errorMessage, formAction] = useActionState(
-        async (prevState: string | undefined, formData: FormData) => {
-            setIsLoading(true)
-            const result = await authenticate(prevState, formData)
-            setIsLoading(false)
-            return result
-        }
+    const [state, formAction] = useActionState<UserFormState, FormData>(
+        authenticate
         ,
-        undefined
+        {
+            success: false,
+            errors: {}
+        }
     )
     const [email, setEmail] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
 
     return (
         <Card className="w-full max-w-md mx-auto">
@@ -50,6 +48,9 @@ export function LoginForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                        {state.errors.email && (
+                            <ErrorAlert errors={state.errors.email} />
+                        )}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="password" className="font-bold">パスワード</Label>
@@ -59,22 +60,22 @@ export function LoginForm() {
                             type="password"
                             required
                         />
+                        {state.errors.password && (
+                            <ErrorAlert errors={state.errors.password} />
+                        )}
+
                     </div>
                     <Button
                         type="submit"
                         className="w-full mt-4 text-lg font-bold py-2 h-auto cursor-pointer hover:bg-blue-600 hover:scale-105 transition-all"
-                        disabled={isLoading}
                     >
-                        {isLoading && (
-                            <Loader2 className="animate-spin mr-2" size={20} />
-                        )}
                         ログイン
                     </Button>
                     <div className="flex h-8 items-end space-x-1">
-                        {errorMessage && (
+                        {state.errors.auth && (
                             <div className="text-red-500">
                                 <p className="text-sm">
-                                    {errorMessage}
+                                    {state.errors.auth}
                                 </p>
                             </div>
 

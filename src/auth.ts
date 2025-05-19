@@ -42,12 +42,20 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                 session.user.id = (token.id || token.sub || '') as string
                 session.user.name = token.name ?? ''
                 session.user.email = token.email ?? ''
+                // console.log('セッション情報：', session)
+                // console.log('トークンID：', token.id)
+                // console.log('トークンSUB：', token.sub)
+                // console.log('トークン情報：', token)
             }
             return session
         },
         async signIn({ user, account }) {
-            // Google認証,Twitter(X)認証
-            if (account?.provider === "google" || account?.provider === "twitter") {
+
+            // console.log('user:', user)
+            // console.log('account:', account)
+            // console.log('profile:', profile)
+            // Google認証
+            if (account?.provider === "google") {
                 const existUser = await prisma.user.findUnique({
                     where: { email: user.email! }
                 })
@@ -55,6 +63,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                     // User未登録ならテーブルに登録する
                     await prisma.user.create({
                         data: {
+                            id: user.id,    // Google認証の場合、GoogleのIDを設定しないとトークン情報のIDとDBのIDが合わなくなるためGoogle側のIDを設定する。
                             email: user.email!,
                             name: user.name ?? '',
                             password: 'provider-auth'

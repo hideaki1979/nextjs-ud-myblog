@@ -24,6 +24,8 @@ export async function createPost(
     if (!userId) {
         throw new Error("不正なリクエストです。")
     }
+    console.log('ユーザーID：', userId)
+    console.log('セッション情報：', session)
 
     // 入力値を保持するためのオブジェクト
     const values = {

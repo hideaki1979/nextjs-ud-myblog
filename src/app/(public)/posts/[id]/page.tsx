@@ -16,6 +16,14 @@ import "highlight.js/styles/github.css" // コードハイライト用のスタ�
 
 type Params = { params: Promise<{ id: string }> }
 
+/**
+ * PublicPostPage
+ *
+ * 公開されたブログ記事の詳細を表示
+ *
+ * @param {{ params: Promise<{ id: string }> }} props
+ * @returns {JSX.Element}
+ */
 export default async function PostPage({ params }: Params) {
     const { id } = await params
     const post = await getPost(id)

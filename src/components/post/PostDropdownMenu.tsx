@@ -23,7 +23,7 @@ export default function PostDropdownMenu({ postId }: { postId: string }) {
     return (
         <>
             <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
-                <DropdownMenuTrigger className="px-2 py-1 border rounded-md">
+                <DropdownMenuTrigger className="px-2 py-1 border rounded-md hover:bg-gray-600 hover:text-white transition-colors cursor-pointer">
                     ･･･
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>

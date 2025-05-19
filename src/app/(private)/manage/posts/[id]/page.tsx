@@ -13,6 +13,15 @@ import "highlight.js/styles/github.css" // コードハイライト用のスタ�
 
 type Params = { params: Promise<{ id: string }> }
 
+/**
+ * 指定されたIDのブログ記事を表示
+ *
+ * authのsession情報を元に、指定されたIDのブログ記事を取得し
+ * その内容を表示する
+ *
+ * @param {Params} props
+ * @returns
+ */
 export default async function PostDetailPage({ params }: Params) {
     const { id } = await params
     const post = await getOwnPost(id)

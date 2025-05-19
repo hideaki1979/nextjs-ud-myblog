@@ -15,6 +15,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { updatePost } from "@/lib/actions/updatePost"
 
 
+/**
+ * 記事の編集画面
+ * @param {{ post: { id: string; title: string; content: string; topImage?: string | null; published: boolean; } }}
+ * @returns {JSX.Element}
+ */
 export default function EditPostForm({ post }: EditPostProps) {
     const [content, setContent] = useState(post.content)  // 記事の文章
     const [contentLength, setContentLength] = useState(0)   // 入力文字数

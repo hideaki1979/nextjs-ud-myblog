@@ -4,6 +4,16 @@ import { Button } from "@/components/ui/button"
 import { getOwnPosts } from "@/lib/post"
 import Link from "next/link"
 
+/**
+ * ダッシュボードページを表示する非同期関数。
+ * 
+ * ユーザーのセッションを確認し、ログインしているユーザーの投稿一覧を取得して表示します。
+ * 記事タイトル、表示／非表示ステータス、更新日時、操作メニューを含むテーブル形式で投稿を表示します。
+ * また、新規記事作成のためのリンクボタンを提供します。
+ * 
+ * @throws エラーが発生した場合、またはセッションが無効な場合にエラーをスローします。
+ */
+
 export default async function DashBoardPage() {
     const session = await auth()
     const userId = session?.user?.id
@@ -48,7 +58,7 @@ export default async function DashBoardPage() {
                             <td className="border p-2">
                                 {new Date(post.updatedAt).toLocaleString()}
                             </td>
-                            <td className="border p-2 text-center hover:bg-gray-600 hover:text-white transition-colors cursor-pointer">
+                            <td className="border p-2 text-center">
                                 <PostDropdownMenu postId={post.id} />
                             </td>
                         </tr>

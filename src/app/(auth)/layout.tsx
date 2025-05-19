@@ -1,3 +1,8 @@
+/**
+ * 認証画面の基本レイアウト
+ * @param children children of component
+ * @returns AuthLayout component
+ */
 export default function AuthLayout({
     children
 }: Readonly<{

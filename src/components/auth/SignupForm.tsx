@@ -1,7 +1,7 @@
 "use client"
 
 import { createUser } from "@/lib/actions/createUser"
-import { useActionState, useState } from "react"
+import { useActionState } from "react"
 import {
     Card,
     CardContent,
@@ -13,19 +13,14 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { UserFormState } from "@/types/UserForm"
 import Link from "next/link"
-import { Loader2 } from "lucide-react"
 import { FcGoogle } from "react-icons/fc"
 import { signIn } from "next-auth/react"
 import { FaXTwitter } from "react-icons/fa6"
+import { ErrorAlert } from "../layouts/ErrorAlert"
 
 export function SignupForm() {
     const [state, formAction] = useActionState<UserFormState, FormData>(
-        async (prevState: UserFormState, formData: FormData) => {
-            setIsLoading(true)
-            const result = await createUser(prevState, formData)
-            setIsLoading(false)
-            return result
-        }
+        createUser
         , {
             success: false,
             errors: {},
@@ -35,8 +30,6 @@ export function SignupForm() {
             }
 
         })
-
-    const [isLoading, setIsLoading] = useState(false)
 
     return (
         <Card className="w-full max-w-md mx-auto">
@@ -55,9 +48,7 @@ export function SignupForm() {
                             defaultValue={state.values?.name || ""}
                         />
                         {state.errors.name && (
-                            <p className="text-sm mt-2 text-red-500">
-                                {state.errors.name.join(',')}
-                            </p>
+                            <ErrorAlert errors={state.errors.name} />
                         )}
                     </div>
                     <div className="space-y-2">
@@ -70,9 +61,7 @@ export function SignupForm() {
                             defaultValue={state.values?.email || ""}
                         />
                         {state.errors.email && (
-                            <p className="text-sm mt-2 text-red-500">
-                                {state.errors.email.join(',')}
-                            </p>
+                            <ErrorAlert errors={state.errors.email} />
                         )}
                     </div>
                     <div className="space-y-2">
@@ -84,9 +73,7 @@ export function SignupForm() {
                             required
                         />
                         {state.errors.password && (
-                            <p className="text-sm mt-2 text-red-500">
-                                {state.errors.password.join(',')}
-                            </p>
+                            <ErrorAlert errors={state.errors.password} />
                         )}
                     </div>
                     <div className="space-y-2">
@@ -98,19 +85,13 @@ export function SignupForm() {
                             required
                         />
                         {state.errors.confirmPassword && (
-                            <p className="text-sm mt-2 text-red-500">
-                                {state.errors.confirmPassword.join(',')}
-                            </p>
+                            <ErrorAlert errors={state.errors.confirmPassword} />
                         )}
                     </div>
                     <Button
                         type="submit"
                         className="w-full text-xl font-bold h-auto py-2 hover:bg-blue-600 hover:scale-105 transition-all cursor-pointer"
-                        disabled={isLoading}
                     >
-                        {isLoading && (
-                            <Loader2 className="animate-spin mr-2" size={20} />
-                        )}
                         ユーザー登録
                     </Button>
                 </form>

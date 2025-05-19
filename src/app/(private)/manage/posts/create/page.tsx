@@ -12,6 +12,19 @@ import { Button } from "@/components/ui/button"
 import { PostFormState } from "@/types/Post"
 import { createPost } from "@/lib/actions/createPost"
 
+/**
+ * 新規記事投稿フォーム
+ *
+ * 以下のフィールドがあります
+ *
+ *  - タイトル
+ *  - トップ画像
+ *  - 内容（Markdown）
+ *
+ * 投稿ボタンを押すと、server-sideでバリデーションが行われます。
+ *
+ * プレビュー表示ボタンを押すと、現在の内容がMarkdownでレンダリングされます。
+ */
 export default function CreatePostPage() {
     const [content, setContent] = useState("")  // 記事の文章
     const [contentLength, setContentLength] = useState(0)   // 入力文字数
@@ -25,15 +38,17 @@ export default function CreatePostPage() {
     }
 
     const [state, formAction] =
-        useActionState<PostFormState, FormData>(createPost, {
-            success: false,
-            errors: {},
-            values: {
-                title: "",
-                content: "",
-                topImage: undefined
-            }
-        })
+        useActionState<PostFormState, FormData>(
+            createPost
+            , {
+                success: false,
+                errors: {},
+                values: {
+                    title: "",
+                    content: "",
+                    topImage: undefined
+                }
+            })
 
     return (
         <div className="mt-8 px-8">
@@ -122,7 +137,7 @@ export default function CreatePostPage() {
                 )}
                 <Button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:cursor-pointer"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:outline-none hover:ring-2 hover:ring-indigo-500 hover:cursor-pointer"
                 >
                     投稿する
                 </Button>
